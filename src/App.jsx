@@ -45,7 +45,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen transition-colors duration-300 dark:bg-dark-950 dark:text-gray-100 bg-gray-100 text-dark-900 overflow-x-hidden">
+      <div className="min-h-screen transition-colors duration-300 dark:bg-dark-950 dark:text-gray-100 bg-gray-100 text-dark-900 overflow-x-hidden px-4 md:px-8">
         {/* Elementos de fondo con paralaje */}
         <motion.div 
           className="fixed top-0 right-0 w-1/3 h-screen bg-gradient-to-l from-primary-100/20 to-transparent dark:from-primary-900/5 dark:to-transparent pointer-events-none -z-10" 

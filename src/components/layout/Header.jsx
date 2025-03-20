@@ -55,7 +55,7 @@ const Header = ({ activeSection }) => {
 
   return (
     <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-colors duration-300 dark:bg-dark-900/80 dark:border-b dark:border-dark-800 bg-white/80 border-b border-gray-200"
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-colors duration-300 dark:bg-dark-900/80 dark:border-b dark:border-dark-800 bg-white/80 border-b border-gray-200 px-4"
       initial="hidden"
       animate="visible"
       variants={navVariants}
