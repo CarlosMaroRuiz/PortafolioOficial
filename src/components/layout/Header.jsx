@@ -13,13 +13,13 @@ const Header = ({ activeSection }) => {
   };
 
   const navLinks = [
-    { id: 'home', text: 'Inicio' },
-    { id: 'about', text: 'Sobre Mí' },
-    { id: 'skills', text: 'Habilidades' },
-    { id: 'experience', text: 'Experiencia' },
-    { id: 'certificates', text: 'Certificados' },
-    { id: 'achievements', text: 'Logros' },
-    { id: 'projects', text: 'Proyectos' }
+    { id: 'home', text: 'Home' },
+    { id: 'about', text: 'About Me' },
+    { id: 'skills', text: 'Skills' },
+    { id: 'experience', text: 'Experience' },
+    { id: 'certificates', text: 'Certificates' },
+    { id: 'achievements', text: 'Achievements' },
+    { id: 'projects', text: 'Projects' }
   ];
 
   const navVariants = {
