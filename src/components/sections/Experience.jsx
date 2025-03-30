@@ -10,7 +10,7 @@ const Experience = () => {
 
   const experienceItems = [
     {
-      period: '2022 - Present',
+      period: 'Ago 2023 - Sep 2023',
       title: 'Frontend Developer',
       company: 'HighTech',
       responsibilities: [
@@ -21,7 +21,7 @@ const Experience = () => {
       ]
     },
     {
-      period: '2021 - 2022',
+      period: 'Nov 2023 - Dic 2024',
       title: 'Frontend Developer',
       company: 'IMA Chiapas',
       responsibilities: [
