@@ -1,7 +1,8 @@
 // src/components/sections/Achievements.jsx
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiStar, FiAward, FiTarget } from 'react-icons/fi';
+
+import achievements from '../../data/archivementData';
 
 const Achievements = () => {
   const [ref, inView] = useInView({
@@ -9,53 +10,6 @@ const Achievements = () => {
     threshold: 0.1,
   });
 
-  const achievements = [
-    {
-      title: 'First Place at the Vara Network Hackathon at ITAM, Mexico City',
-      category: 'Hackathon',
-      description: 'I won 1st place at the MegaHackathon by Vara Network at ITAM with Monogatari, a Web3 platform revolutionizing manga through blockchain, smart contracts, and NFTs. As a Frontend Developer.',
-      highlights: [
-        'Application login using a web3-to-web2 abstraction for user convenience',
-        'Hackaton Team',
-        'NFT collection for application users'
-      ],
-      icon: <FiStar className="h-16 w-16 text-white" />,
-      images: [
-        { src: '/img/vara/vara1.jpeg', alt: 'Vara Network Hackathon at ITAM' },
-        { src: '/img/vara/vara2.jpeg', alt: 'Vara Network Hackathon Award' }
-      ],
-      color: 'from-blue-500 to-purple-600'
-    },
-    {
-      title: 'Third Place at the Vara Network Hackathon in Chiapas',
-      category: 'Hackathon',
-      description: 'I achieved 3rd place at the Hackathon in Chiapas, sponsored by Vara Network, with a blockchain-based project. In the team, I served as the Frontend Developer.',
-      highlights: [
-        'Blockchain-based solution',
-        'Frontend Development using modern web technologies',
-        'Team collaboration in a competitive environment'
-      ],
-      icon: <FiAward className="h-16 w-16 text-white" />,
-      images: [], // Add image paths when available
-      color: 'from-green-500 to-teal-600'
-    },
-    {
-      title: 'Talent Land 2025 Genius Arena Hackathon, Guadalajara',
-      category: 'Hackathon',
-      description: 'Participación en el Genius Arena Hackathon durante Talent Land México 2025, uno de los eventos de innovación y tecnología más importantes del país. Desarrollamos una solución centralizada de facturación para el track de Flecha Amarilla, trabajando con tecnologías como Angular, FastAPI y AWS Textract para automatizar la lectura y procesamiento de facturas. Experiencia enfocada en desarrollo frontend, trabajo colaborativo y solución de problemas bajo presión.',
-      highlights: [
-        'Centralized billing solution development',
-        'Angular, FastAPI, and AWS Textract implementation',
-        'Frontend development under pressure'
-      ],
-      icon: <FiTarget className="h-16 w-16 text-white" />,
-      images: [
-        { src: '/img/talent/certificado.png', alt: 'Talent Land Certificate' },
-        { src: '/img/talent/talent2.jpeg', alt: 'Talent Land Hackathon' }
-      ],
-      color: 'from-red-500 to-orange-600'
-    }
-  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },

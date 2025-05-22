@@ -1,4 +1,3 @@
-// src/components/sections/Skills.jsx
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FiMonitor, FiServer, FiCode } from 'react-icons/fi';
@@ -40,26 +39,26 @@ const Skills = () => {
   };
 
   const frontendSkills = [
-    { name: 'HTML/CSS', percentage: 95 },
-    { name: 'JavaScript', percentage: 90 },
-    { name: 'React.js', percentage: 85 },
-    { name: 'Tailwind CSS', percentage: 90 },
+    'HTML/CSS',
+    'JavaScript',
+    'React.js',
+    'Tailwind CSS',
   ];
 
   const backendSkills = [
-    { name: 'Python', percentage: 90 },
-    { name: 'Flask', percentage: 75 },
-    { name: 'FastAPI', percentage: 75 },
-    { name: 'MySQL', percentage: 80 },
-    { name: 'Node.js', percentage: 50 },
-    { name: 'Express.js', percentage: 45 },
+    'Python',
+    'Flask',
+    'FastAPI',
+    'MySQL',
+    'Node.js',
+    'Express.js',
   ];
 
   const otherSkills = [
-    { name: 'Git/GitHub', percentage: 55 },
-    { name: 'Docker', percentage: 10 },
-    { name: 'Blockchain/Web3', percentage: 45 },
-    { name: 'AWS Cloud', percentage: 45 },
+    'Git/GitHub',
+    'Docker',
+    'Blockchain/Web3',
+    'AWS Cloud',
   ];
 
   return (

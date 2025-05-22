@@ -1,6 +1,6 @@
 // src/components/ui/ProjectCard.jsx 
 import { motion, useAnimation } from 'framer-motion'; 
-import { FiExternalLink, FiGithub, FiGitBranch } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiGitBranch, FiEye, FiEyeOff } from 'react-icons/fi';
 import { useState, useEffect, useRef } from 'react';
 
 const ProjectCard = ({ project }) => {
@@ -13,6 +13,9 @@ const ProjectCard = ({ project }) => {
   
   // Estado para decidir qué animación mostrar aleatoriamente
   const [currentAnimation, setCurrentAnimation] = useState(0);
+
+  // Función para determinar si el demo link está disponible
+  const isDemoAvailable = project.demoLink && project.demoLink !== '#';
   
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -40,6 +43,10 @@ const ProjectCard = ({ project }) => {
       transition: {
         duration: 0.2
       }
+    },
+    disabled: {
+      scale: 1,
+      opacity: 0.5
     }
   };
   
@@ -164,6 +171,15 @@ const ProjectCard = ({ project }) => {
     }, 1000);
   };
   
+  // Función para manejar clics en demo no disponible
+  const handleDemoClick = (e) => {
+    if (!isDemoAvailable) {
+      e.preventDefault();
+      // Opcional: mostrar una notificación o tooltip
+      console.log('Demo not available for this project');
+    }
+  };
+  
   // Animación para el icono pequeño de GitHub
   const smallGithubVariants = {
     idle: { 
@@ -276,13 +292,11 @@ const ProjectCard = ({ project }) => {
           className="relative z-10"
         >
           <FiGithub className="w-20 h-20 text-gray-500 dark:text-gray-400" />
-          
-          {/* Sin ojos, solo el icono del gato */}
         </motion.div>
       </motion.div>
       
       <div className="p-6">
-        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+        <h3 className="text-xl font-bold mb-2 dark:text-white text-dark-800">{project.title}</h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
         <div className="flex flex-wrap gap-2 mb-6">
           {project.technologies.map((tech, index) => (
@@ -294,36 +308,64 @@ const ProjectCard = ({ project }) => {
             </span>
           ))}
         </div>
-        <div className="flex space-x-4">
-          <motion.a
-            href={project.demoLink}
-            className="text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
-            variants={linkVariants}
-            whileHover="hover"
-            whileTap={{ scale: 0.95 }}
-          >
-            <FiExternalLink className="h-6 w-6" />
-          </motion.a>
+        <div className="flex space-x-4 items-center">
+          {/* Demo Link mejorado */}
+          <motion.div className="relative group">
+            <motion.a
+              href={isDemoAvailable ? project.demoLink : '#'}
+              target={isDemoAvailable ? "_blank" : undefined}
+              rel={isDemoAvailable ? "noopener noreferrer" : undefined}
+              className={`transition-colors flex items-center ${
+                isDemoAvailable 
+                  ? 'text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 cursor-pointer' 
+                  : 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+              }`}
+              variants={linkVariants}
+              whileHover={isDemoAvailable ? "hover" : "disabled"}
+              whileTap={isDemoAvailable ? { scale: 0.95 } : {}}
+              onClick={handleDemoClick}
+            >
+              {isDemoAvailable ? (
+                <FiExternalLink className="h-6 w-6" />
+              ) : (
+                <FiEyeOff className="h-6 w-6" />
+              )}
+            </motion.a>
+            
+            {/* Tooltip para demo disponible/no disponible */}
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+              {isDemoAvailable ? "View Live Demo" : "Demo not available"}
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+            </div>
+          </motion.div>
           
-          {/* Icono pequeño de GitHub con animación */}
-          <motion.a
-            href={project.githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
-            variants={smallGithubVariants}
-            whileHover="wiggle"
-            whileTap={{ scale: 0.95 }}
-            onHoverStart={() => {
-              // Posibilidad de que el gato se asome cuando 
-              // se hace hover en el icono pequeño
-              if (!peekingCat && Math.random() > 0.5) {
-                triggerPeekingCat();
-              }
-            }}
-          >
-            <FiGithub className="h-6 w-6" />
-          </motion.a>
+          {/* GitHub Link mejorado */}
+          <motion.div className="relative group">
+            <motion.a
+              href={project.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
+              variants={smallGithubVariants}
+              whileHover="wiggle"
+              whileTap={{ scale: 0.95 }}
+              onHoverStart={() => {
+                // Posibilidad de que el gato se asome cuando 
+                // se hace hover en el icono pequeño
+                if (!peekingCat && Math.random() > 0.5) {
+                  triggerPeekingCat();
+                }
+              }}
+            >
+              <FiGithub className="h-6 w-6" />
+            </motion.a>
+            
+            {/* Tooltip para GitHub */}
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+              View on GitHub
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </motion.div>
