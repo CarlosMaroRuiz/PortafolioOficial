@@ -1,32 +1,31 @@
 import { motion, useTransform, useScroll } from 'framer-motion';
-import { FiCode, FiServer, FiDatabase } from 'react-icons/fi';
+import { 
+  FaReact, 
+  FaPython, 
+  FaAws, 
+  FaJs, 
+  FaNodeJs
+} from 'react-icons/fa';
+import { 
+  SiTailwindcss, 
+  SiFastapi,
+  SiFramer
+} from 'react-icons/si';
 import { useState, useEffect } from 'react';
+import GitHubExplorer from './GitHubExplorer';
 
 const HeroVisualContainer = ({ 
   title = "Desarrollo Web", 
   subtitle = "Front-end & Back-end",
   className = ""
 }) => {
-  // Mouse position state
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
-  // Track mouse position
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+  // Referencias para los iconos
+  const [iconsRefs, setIconsRefs] = useState({});
+  const [iconPositions, setIconPositions] = useState({}); // Nuevas posiciones de los iconos
 
-  // Framer Motion scroll hook para efectos más avanzados
+  // Framer Motion scroll hook
   const { scrollYProgress } = useScroll();
   
-  // Variantes para animaciones iniciales
   const visualContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -38,7 +37,7 @@ const HeroVisualContainer = ({
     }
   };
 
-  const shapeVariants = {
+  const iconVariants = {
     hidden: { scale: 0, opacity: 0 },
     visible: (custom) => ({
       scale: 1,
@@ -54,9 +53,9 @@ const HeroVisualContainer = ({
   const floatingAnimation = {
     initial: { y: 0 },
     animate: (custom) => ({
-      y: [0, -10, 0],
-      scale: [1, 1.02, 1],
-      rotate: [0, custom % 2 === 0 ? 3 : -3, 0],
+      y: [0, -15, 0],
+      scale: [1, 1.05, 1],
+      rotate: [0, custom % 2 === 0 ? 5 : -5, 0],
       transition: {
         duration: 3 + custom % 3,
         ease: "easeInOut",
@@ -66,188 +65,133 @@ const HeroVisualContainer = ({
     })
   };
 
-  // Paralaje más lento para la sección visual
+  // Paralaje para el contenedor visual
   const visualContainerY = useTransform(scrollYProgress, [0, 0.2], [0, 20]);
   const visualOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.8]);
 
-  // Array de formas para la composición visual abstracta
-  const shapes = [
+  // Configuración de iconos de tecnologías con acciones
+  const techIcons = [
     { 
-      icon: <FiCode size={24} />, 
-      size: "lg", 
+      icon: <FaReact size={32} />, 
+      size: "xl", 
       position: "top-10 left-20", 
-      color: "from-blue-400 to-purple-600", 
+      color: "#61DAFB", 
+      bgColor: "from-cyan-400 to-blue-500",
       custom: 0,
       parallaxFactor: 0.4,
-      glowColor: "blue"
+      name: "React",
+      action: "spin"
     },
     { 
-      icon: <FiDatabase size={28} />, 
-      size: "xl", 
+      icon: <FaPython size={28} />, 
+      size: "lg", 
       position: "bottom-16 right-16", 
-      color: "from-indigo-400 to-cyan-500", 
+      color: "#3776AB", 
+      bgColor: "from-blue-500 to-yellow-400",
       custom: 1,
       parallaxFactor: 0.6,
-      glowColor: "cyan" 
+      name: "Python",
+      action: "jump"
     },
     { 
-      icon: <FiServer size={20} />, 
+      icon: <FaAws size={24} />, 
       size: "md", 
       position: "top-32 right-24", 
-      color: "from-violet-400 to-fuchsia-500", 
+      color: "#FF9900", 
+      bgColor: "from-orange-400 to-yellow-500",
       custom: 2,
       parallaxFactor: 0.7,
-      glowColor: "fuchsia"
+      name: "AWS",
+      action: "push"
     },
     { 
-      size: "sm", 
-      position: "bottom-20 left-14", 
-      color: "from-emerald-300 to-teal-500", 
-      shape: "circle", 
-      custom: 3,
-      parallaxFactor: 0.9,
-      glowColor: "emerald"
-    },
-    { 
-      size: "lg", 
+      icon: <FaJs size={26} />, 
+      size: "md", 
       position: "top-5 right-5", 
-      color: "from-amber-400 to-orange-500", 
-      shape: "circle", 
-      custom: 4,
+      color: "#F7DF1E", 
+      bgColor: "from-yellow-400 to-yellow-500",
+      custom: 3,
       parallaxFactor: 1.3,
-      glowColor: "amber"
+      name: "JavaScript",
+      action: "jump"
     },
     { 
+      icon: <SiTailwindcss size={24} />, 
       size: "md", 
       position: "bottom-5 left-36", 
-      color: "from-pink-400 to-rose-500", 
-      shape: "circle", 
-      custom: 5,
+      color: "#06B6D4", 
+      bgColor: "from-cyan-400 to-teal-500",
+      custom: 4,
       parallaxFactor: 1.1,
-      glowColor: "pink"
+      name: "Tailwind",
+      action: "push"
     },
     { 
-      size: "xl", 
-      position: "top-24 left-4", 
-      color: "from-sky-400 to-blue-500", 
-      shape: "square", 
-      custom: 6,
-      parallaxFactor: 0.7,
-      glowColor: "sky"
-    },
-    { 
-      size: "sm", 
-      position: "bottom-36 right-8", 
-      color: "from-purple-500 to-indigo-500", 
-      shape: "square", 
-      custom: 7,
-      parallaxFactor: 1.4,
-      glowColor: "purple"
-    },
-    { 
+      icon: <FaNodeJs size={28} />, 
       size: "lg", 
-      position: "top-40 right-40", 
-      color: "from-teal-300 to-cyan-500", 
-      shape: "square", 
-      custom: 8,
-      parallaxFactor: 1.0,
-      glowColor: "teal"
+      position: "top-24 left-4", 
+      color: "#339933", 
+      bgColor: "from-green-500 to-emerald-600",
+      custom: 5,
+      parallaxFactor: 0.7,
+      name: "Node.js",
+      action: "spin"
     },
     { 
-      size: "md", 
-      position: "bottom-24 center", 
-      color: "from-rose-300 to-pink-500", 
-      shape: "circle", 
-      custom: 9,
-      parallaxFactor: 0.8,
-      glowColor: "rose"
-    },
-    { 
+      icon: <SiFastapi size={20} />, 
       size: "sm", 
       position: "top-16 center", 
-      color: "from-blue-300 to-indigo-500", 
-      shape: "square", 
-      custom: 10,
+      color: "#009688", 
+      bgColor: "from-teal-400 to-green-500",
+      custom: 6,
       parallaxFactor: 1.2,
-      glowColor: "blue"
+      name: "FastAPI",
+      action: "jump"
     },
     { 
+      icon: <SiFramer size={18} />, 
       size: "xs", 
       position: "bottom-10 right-28", 
-      color: "from-violet-300 to-purple-500", 
-      shape: "circle", 
-      custom: 11,
+      color: "#0055FF", 
+      bgColor: "from-blue-500 to-purple-600",
+      custom: 7,
       parallaxFactor: 0.5,
-      glowColor: "violet"
+      name: "Framer",
+      action: "spin"
     },
   ];
 
-  // Mapa de tamaños para las formas
+  // Mapa de tamaños
   const sizeMap = {
-    xs: "w-6 h-6",
-    sm: "w-8 h-8",
-    md: "w-12 h-12",
-    lg: "w-16 h-16",
-    xl: "w-20 h-20",
+    xs: "w-12 h-12",
+    sm: "w-16 h-16",
+    md: "w-20 h-20",
+    lg: "w-24 h-24",
+    xl: "w-28 h-28",
   };
 
-  // Referencias para el contenedor de formas
-  const [visualContainerRef, setVisualContainerRef] = useState(null);
-  const [shapesRefs, setShapesRefs] = useState({});
-
-  // Calcular la posición relativa del mouse dentro del contenedor visual
-  const getRelativeMousePosition = () => {
-    if (!visualContainerRef) return { x: 0, y: 0 };
-    
-    const rect = visualContainerRef.getBoundingClientRect();
-    return {
-      x: mousePosition.x - rect.left,
-      y: mousePosition.y - rect.top
-    };
-  };
-
-  // Calcular la distancia entre el mouse y cada forma
-  const getDistanceAndForce = (shapeId) => {
-    const shapeRef = shapesRefs[shapeId];
-    if (!shapeRef || !visualContainerRef) return { distance: 1000, forceX: 0, forceY: 0, scale: 1, brightness: 1, rotation: 0 };
-    
-    const relativeMousePos = getRelativeMousePosition();
-    const shapeRect = shapeRef.getBoundingClientRect();
-    const visualRect = visualContainerRef.getBoundingClientRect();
-    
-    const shapeCenter = {
-      x: (shapeRect.left + shapeRect.width / 2) - visualRect.left,
-      y: (shapeRect.top + shapeRect.height / 2) - visualRect.top
-    };
-    
-    const dx = relativeMousePos.x - shapeCenter.x;
-    const dy = relativeMousePos.y - shapeCenter.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    const maxDistance = 180;
-    const maxForce = 40;
-    
-    if (distance > maxDistance) {
-      return { distance, forceX: 0, forceY: 0, scale: 1, brightness: 1, rotation: 0 };
+  // Callback para cuando GitHubExplorer realiza una acción
+  const handleGitHubAction = (iconIndex, action, reaction) => {
+    console.log(`🚀 GitHub ${action} on ${techIcons[iconIndex].name}`);
+    if (reaction) {
+      console.log(`😄 Reaction: ${reaction.state} - ${reaction.reason}`);
     }
-    
-    const directionX = dx / distance;
-    const directionY = dy / distance;
-    const forceMagnitude = maxForce * (1 - distance / maxDistance);
-    const distanceRatio = 1 - distance / maxDistance;
-    const scale = 1 + distanceRatio * 0.15;
-    const brightness = 1 + distanceRatio * 0.5;
-    const rotation = distanceRatio * 15 * (Math.random() > 0.5 ? 1 : -1);
-    
-    return {
-      distance,
-      forceX: -directionX * forceMagnitude,
-      forceY: -directionY * forceMagnitude,
-      scale,
-      brightness,
-      rotation
-    };
   };
+
+  // Callback para cuando GitHub mueve un icono
+  const handleIconMove = (iconIndex, newPosition) => {
+    setIconPositions(prev => ({
+      ...prev,
+      [iconIndex]: newPosition
+    }));
+    console.log(`📦 Moved ${techIcons[iconIndex].name} to:`, newPosition);
+  };
+
+  // Debug: mostrar cuántas referencias tenemos
+  useEffect(() => {
+    console.log(`🔍 Total icon refs: ${Object.keys(iconsRefs).length}`);
+    console.log('📋 Refs:', Object.keys(iconsRefs));
+  }, [iconsRefs]);
 
   return (
     <motion.div
@@ -259,7 +203,6 @@ const HeroVisualContainer = ({
         y: visualContainerY,
         opacity: visualOpacity
       }}
-      ref={(ref) => setVisualContainerRef(ref)}
     >
       {/* Contenedor con efectos de gradiente */}
       <div className="absolute -inset-0.5 bg-gradient rounded-2xl blur-xl opacity-75"></div>
@@ -267,7 +210,15 @@ const HeroVisualContainer = ({
       {/* Contenedor principal */}
       <div className="relative bg-white dark:bg-dark-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-dark-800 h-96 md:h-[500px]">
         
-        {/* Líneas de código abstractas con efecto paralaje */}
+        {/* Componente GitHubExplorer separado */}
+        <GitHubExplorer 
+          techIcons={techIcons}
+          iconsRefs={iconsRefs}
+          onAction={handleGitHubAction}
+          onIconMove={handleIconMove}
+        />
+        
+        {/* Líneas de código con paralaje */}
         <motion.div 
           className="absolute top-0 left-0 w-full h-full opacity-10"
           style={{
@@ -280,12 +231,15 @@ const HeroVisualContainer = ({
             animate={{ opacity: 0.6 }}
             transition={{ delay: 1.2, duration: 0.8 }}
           >
-            {`function createSolution() {
-  const skills = ["React", "Python", "Tailwind"];
-  const passion = "Web Development";
-  
-  return buildFuture(skills, passion);
-}`}
+            {`// GitHub can now carry and move icons!
+const techStack = {
+  frontend: ["React", "Tailwind", "JavaScript"],
+  backend: ["Python", "FastAPI", "Node.js"],
+  cloud: ["AWS"],
+  tools: ["GitHub", "Framer Motion"]
+};
+
+const actions = ["jump", "push", "spin", "carry"];`}
           </motion.div>
           
           <motion.div 
@@ -294,84 +248,84 @@ const HeroVisualContainer = ({
             animate={{ opacity: 0.6 }}
             transition={{ delay: 1.5, duration: 0.8 }}
           >
-            {`class Developer {
-  constructor() {
-    this.creativity = Infinity;
-    this.problems = [];
-    this.solutions = [];
-  }
+            {`function createAmazingApps() {
+  const github = new GitHubExplorer();
+  const passion = "Web Development";
+  const skills = techStack;
   
-  solve(problem) {
-    const solution = this.think(problem);
-    this.solutions.push(solution);
-    return solution;
-  }
+  // GitHub can now carry icons around!
+  github.canCarry = true;
+  github.reactions = ["excited", "dizzy", "hurt"];
+  
+  return buildSomethingAwesome(passion, skills);
 }`}
           </motion.div>
         </motion.div>
         
-        {/* Formas geométricas animadas con paralaje y reacción al mouse */}
-        {shapes.map((shape, index) => {
+        {/* Iconos de tecnologías */}
+        {techIcons.map((tech, index) => {
           const yParallax = useTransform(
             scrollYProgress,
             [0, 0.3, 0.6, 1],
-            [0, 20 * shape.parallaxFactor, 35 * shape.parallaxFactor, 50 * shape.parallaxFactor]
+            [0, 15 * tech.parallaxFactor, 25 * tech.parallaxFactor, 35 * tech.parallaxFactor]
           );
-          
-          const { forceX, forceY } = getDistanceAndForce(`shape-${index}`);
           
           return (
             <motion.div
               key={index}
-              custom={shape.custom}
-              variants={shapeVariants}
+              custom={tech.custom}
+              variants={iconVariants}
               initial="hidden"
               animate="visible"
-              className={`absolute ${shape.position} ${sizeMap[shape.size]} flex items-center justify-center z-10`}
+              className={`absolute ${tech.position} ${sizeMap[tech.size]} flex items-center justify-center z-10`}
               style={{ 
                 y: yParallax,
-                x: forceX,
-                y: forceY ? yParallax.get() + forceY : yParallax,
-                scale: getDistanceAndForce(`shape-${index}`).scale,
-                rotate: getDistanceAndForce(`shape-${index}`).rotation,
-                filter: `brightness(${getDistanceAndForce(`shape-${index}`).brightness})`,
-                transition: { type: "spring", stiffness: 350, damping: 15 }
               }}
               ref={(ref) => {
-                setShapesRefs(prev => ({ ...prev, [`shape-${index}`]: ref }));
+                if (ref) {
+                  setIconsRefs(prev => ({ ...prev, [`tech-${index}`]: ref }));
+                }
               }}
-              whileHover={{ scale: 1.2, transition: { duration: 0.2 } }}
             >
-              {/* Efecto de brillo/resplandor */}
+              {/* Efecto de resplandor */}
               <motion.div 
-                className={`absolute inset-0 ${shape.shape === 'circle' ? 'rounded-full' : shape.shape === 'square' ? 'rounded-lg' : 'rounded-xl'}`}
+                className="absolute inset-0 rounded-2xl"
                 style={{
-                  boxShadow: `0 0 15px 2px ${shape.glowColor || 'rgba(79, 70, 229, 0.4)'}`,
-                  opacity: getDistanceAndForce(`shape-${index}`).distance < 180 ? 
-                           0.3 + (1 - getDistanceAndForce(`shape-${index}`).distance / 180) * 0.7 : 0.2,
+                  boxShadow: `0 0 20px 4px ${tech.color}40`,
+                  opacity: 0.3,
                   transition: 'opacity 0.2s ease'
                 }}
               />
               
+              {/* Contenedor del icono */}
               <motion.div
-                custom={shape.custom}
+                custom={tech.custom}
                 variants={floatingAnimation}
                 initial="initial"
                 animate="animate"
-                className={`${shape.shape === 'circle' ? 'rounded-full' : shape.shape === 'square' ? 'rounded-lg rotate-12' : 'rounded-xl'} 
-                            w-full h-full bg-gradient-to-tr ${shape.color} shadow-lg flex items-center justify-center text-white cursor-pointer backdrop-blur-sm backdrop-saturate-150 border border-white/20`}
+                className={`rounded-2xl w-full h-full bg-gradient-to-tr ${tech.bgColor} shadow-xl flex items-center justify-center text-white backdrop-blur-sm backdrop-saturate-150 border border-white/20 relative overflow-hidden`}
                 style={{
-                  boxShadow: `0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)`
+                  boxShadow: `0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -5px rgba(0, 0, 0, 0.1)`
                 }}
               >
-                {shape.icon && <motion.div 
+                {/* Icono de tecnología */}
+                <motion.div 
                   animate={{ 
                     scale: [1, 1.1, 1],
-                    transition: { duration: 2 + shape.custom % 2, repeat: Infinity }
+                    transition: { duration: 2 + tech.custom % 2, repeat: Infinity }
                   }}
+                  className="relative z-10"
                 >
-                  {shape.icon}
-                </motion.div>}
+                  {tech.icon}
+                </motion.div>
+                
+                {/* Tooltip */}
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                  {tech.name}
+                </div>
+                
+                {/* Efecto de brillo interno */}
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rounded-2xl pointer-events-none" />
               </motion.div>
             </motion.div>
           );
@@ -392,7 +346,7 @@ const HeroVisualContainer = ({
             },
             opacity: { delay: 0.5, duration: 0.8, ease: "easeOut" }
           }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 blur-3xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-3xl"
           style={{ 
             scale: useTransform(scrollYProgress, [0, 0.2], [1, 1.2]),
             opacity: useTransform(scrollYProgress, [0, 0.2], [0.5, 0.2])
@@ -413,31 +367,10 @@ const HeroVisualContainer = ({
             },
             opacity: { delay: 0.6, duration: 0.8, ease: "easeOut" }
           }}
-          className="absolute top-1/3 left-1/3 -translate-x-1/3 -translate-y-1/3 w-48 h-48 rounded-full bg-gradient-to-tr from-blue-500/20 to-cyan-500/20 blur-3xl"
+          className="absolute top-1/3 left-1/3 -translate-x-1/3 -translate-y-1/3 w-48 h-48 rounded-full bg-gradient-to-tr from-cyan-500/20 to-teal-500/20 blur-3xl"
           style={{ 
             scale: useTransform(scrollYProgress, [0, 0.2], [1, 0.9]),
             opacity: useTransform(scrollYProgress, [0, 0.2], [0.5, 0.3])
-          }}
-        />
-        
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ 
-            scale: [1, 0.9, 1.1, 1, 0.95],
-            opacity: 1
-          }}
-          transition={{ 
-            scale: {
-              duration: 7,
-              repeat: Infinity,
-              repeatType: "reverse"
-            },
-            opacity: { delay: 0.7, duration: 0.8, ease: "easeOut" }
-          }}
-          className="absolute bottom-1/3 right-1/3 w-36 h-36 rounded-full bg-gradient-to-bl from-amber-500/20 to-orange-500/20 blur-3xl"
-          style={{ 
-            scale: useTransform(scrollYProgress, [0, 0.2], [1, 1.1]),
-            opacity: useTransform(scrollYProgress, [0, 0.2], [0.4, 0.2])
           }}
         />
         
