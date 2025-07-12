@@ -1,21 +1,24 @@
-// src/context/ThemeContext.jsx
+
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Verificar si hay un tema guardado en localStorage o usar el tema del sistema
+
   const getInitialTheme = () => {
     const savedTheme = localStorage.getItem('darkMode');
     if (savedTheme !== null) {
       return savedTheme === 'true';
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    return false; 
   };
+
+
 
   const [darkMode, setDarkMode] = useState(getInitialTheme());
   
-  // Guardar el tema en localStorage cuando cambie
+
   useEffect(() => {
     localStorage.setItem('darkMode', darkMode);
   
@@ -37,7 +40,7 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-// Hook personalizado para usar el contexto del tema
+
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {

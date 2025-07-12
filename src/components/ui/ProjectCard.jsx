@@ -302,7 +302,9 @@ const ProjectCard = ({ project }) => {
           {project.technologies.map((tech, index) => (
             <span
               key={index}
-              className="bg-dark-700 text-primary-300 text-xs px-3 py-1 rounded-full"
+              className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 
+                text-xs font-medium px-3 py-1 rounded-full 
+                hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
             >
               {tech}
             </span>
